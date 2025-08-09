@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  sql:
+    init:
+      mode: always  # make sure SQL scripts run on startup
+      platform: h2
+
+general:
+  kafka-topic: test-topic
+
+  kafka:
+    bootstrap-servers: localhost:9092
