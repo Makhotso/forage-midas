@@ -9,11 +9,21 @@ spring:
       ddl-auto: update
   sql:
     init:
-      mode: always  # make sure SQL scripts run on startup
+      mode: always  #SQL scripts run on startup
       platform: h2
+    kafka:
+      bootstrap-servers: localhost:9092
+      consumer:
+        group-id: midas-core
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+        properties:
+          spring.json.trusted.packages: "com.jpmc.midascore.foundation"
+      producer:
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      listener:
+        missing-topics-fatal: false
 
 general:
   kafka-topic: test-topic
-
-  kafka:
-    bootstrap-servers: localhost:9092
