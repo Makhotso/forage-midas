@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
+import com.jpmc.midascore.repository.UserRecordRepository;
+import com.jpmc.midascore.entity.UserRecord;
 
 @SpringBootTest
 @DirtiesContext
@@ -23,6 +25,9 @@ public class TaskThreeTests {
     @Autowired
     private FileLoader fileLoader;
 
+    @Autowired
+    private UserRecordRepository userRecordRepository;
+
     @Test
     void task_three_verifier() throws InterruptedException {
         userPopulator.populate();
@@ -32,6 +37,11 @@ public class TaskThreeTests {
         }
         Thread.sleep(2000);
 
+        /*UserRecord waldorf = userRecordRepository.findByName("Waldorf");
+        logger.info("Waldorf's balance: {}", waldorf.getBalance());*/
+        userRecordRepository.findAll().forEach(u ->
+                logger.info("User in DB: name={}, balance={}", u.getName(), u.getBalance())
+        );
 
         logger.info("----------------------------------------------------------");
         logger.info("----------------------------------------------------------");
