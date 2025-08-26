@@ -33,3 +33,6 @@ spring:
 
 general:
   kafka-topic: test-topic
+
+server :
+  port : 33400

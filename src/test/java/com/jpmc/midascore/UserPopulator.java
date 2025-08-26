@@ -33,7 +33,7 @@ public class UserPopulator {
         }
 
         /*UserRecord u = new UserRecord("waldorf", 1000);  // ✅ entity object
-        repository.save(u);*/
+        repository.save(u); hard code test before I could load DB*/
     }
     public UserRecord findByName(String name) {
         return repository.findByName("waldorf");
@@ -41,30 +41,5 @@ public class UserPopulator {
     }
 }
 
-    /*public UserRecord findByName(String name) {
-        return databaseConduit.findAllUsers() // assuming you have a method like this
-                .stream()
-                .filter(user -> user.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElse(null);
-    }
-}
 
-@Component
-public class UserPopulator {
-
-    @Autowired
-    private UserRecordRepository repository;
-
-    public void populate() {
-        UserRecord u = new UserRecord("waldorf", 1000);  // ✅ entity object
-        repository.save(u);
-    }
-
-    public UserRecord findByName(String name) {
-        return repository.findByName(name);
-
-}
-}
-     */
 

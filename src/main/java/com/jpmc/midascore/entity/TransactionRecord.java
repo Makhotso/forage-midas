@@ -2,6 +2,7 @@ package com.jpmc.midascore.entity;
 
 import jakarta.persistence.*;
 import java.time.Instant;
+import com.jpmc.midascore.foundation.Transaction;
 
 @Entity
 public class TransactionRecord {
@@ -24,12 +25,16 @@ public class TransactionRecord {
     @Column(nullable = false)
     private Instant createdAt;
 
+    @Column(nullable = false)
+    private float incentive;
+
     protected TransactionRecord() {}
 
     public TransactionRecord(UserRecord sender, UserRecord recipient, float amount) {
         this.sender = sender;
         this.recipient = recipient;
         this.amount = amount;
+        this.incentive = incentive;
         this.createdAt = Instant.now();
     }
 

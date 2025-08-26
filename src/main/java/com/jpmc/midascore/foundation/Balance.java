@@ -4,18 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Balance {
+    private long userId;
     private float amount;
 
-    public Balance() {
-    }
-
-    public Balance(float amount) {
+    public Balance(long userId, float amount) {
         this.amount = amount;
+        this.userId = userId;
     }
 
     public float getAmount() {
         return amount;
     }
+    public long getUserId(){ return userId;}
 
     public void setAmount(float amount) {
         this.amount = amount;
@@ -23,6 +23,10 @@ public class Balance {
 
     @Override
     public String toString() {
-        return "Balance {amount=" + amount + "}";
+        return "<balance> userId=" + userId + ", amount=" + amount + " </balance>";
     }
+
+    //public String toString() {
+        //return "Balance {amount=" + amount + "}";
+    //}
 }

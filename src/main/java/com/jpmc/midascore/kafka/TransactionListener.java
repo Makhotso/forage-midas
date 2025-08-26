@@ -20,5 +20,6 @@ public class TransactionListener {
             containerFactory = "kafkaListenerContainerFactory"
     )
     public void listen(Transaction transaction) {System.out.println("✅ Received Transaction: " + transaction);
+        /*transactionProcessor.process(transaction);*/
     }
 }

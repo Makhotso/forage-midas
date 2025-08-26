@@ -7,6 +7,8 @@ import com.jpmc.midascore.repository.TransactionRecordRepository;
 import com.jpmc.midascore.repository.UserRecordRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+import com.jpmc.midascore.foundation.Incentive;
 
 import java.util.Optional;
 
@@ -15,11 +17,21 @@ public class TransactionProcessor {
 
     private final UserRecordRepository userRepo;
     private final TransactionRecordRepository txRepo;
+    private final RestTemplate restTemplate;
+
+    private static final String INCENTIVE_API = "http://localhost:8080/incentive";
 
     public TransactionProcessor(UserRecordRepository userRepo,
-                                TransactionRecordRepository txRepo) {
+                                TransactionRecordRepository txRepo,
+                                RestTemplate restTemplate) {
         this.userRepo = userRepo;
         this.txRepo = txRepo;
+        this.restTemplate = restTemplate;
+    }
+
+    private float fetchIncentive(Transaction tx) {
+        Incentive incentive = restTemplate.postForObject(INCENTIVE_API, tx, Incentive.class);
+        return incentive != null ? incentive.getAmount() : (float)0.0;
     }
 
     @Transactional
@@ -38,9 +50,14 @@ public class TransactionProcessor {
             return; // insufficient funds → discard
         }
 
+        //fetching incentive for this transaction
+        float incentiveAmount = fetchIncentive(tx);
+
         // Adjust balances
-        sender.setBalance(sender.getBalance() - tx.getAmount());
-        recipient.setBalance(recipient.getBalance() + tx.getAmount());
+        /*sender.setBalance(sender.getBalance() - tx.getAmount());
+        recipient.setBalance(recipient.getBalance() + tx.getAmount());*/
+        sender.setBalance(sender.getBalance() - (float) tx.getAmount());
+        recipient.setBalance(recipient.getBalance() + (float) tx.getAmount() + incentiveAmount);
 
         // Persist updates
         userRepo.save(sender);
